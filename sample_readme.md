@@ -51,9 +51,11 @@ spec:
           - name: "reportUrl"
             type: string
             defaultValue: “http://foo.bar”
+            required: TRUE
           - name: "jobId"
             type: string
             defaultValue: “job0”
+            required: TRUE
           - name: "modelFilepath"
             type: string
             defaultValue: “model.pt”
