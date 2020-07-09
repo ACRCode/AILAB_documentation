@@ -2,11 +2,11 @@
 "modelname" : "rsna_pneumonia_detector",
 "files" :  [
 {
-    "file" : "sampledicomfile1.dcm"
+    "file" : "sampledicomfile1.dcm",
     "classificatonOutput" : [
       { "name" : "pneumonia_classification"
         "output" : { "0" : 0, "1", 0.3, "2" : 0.7 }} ,
-        ]
+        ],
         
     "boundingBoxOutput" : [
       {"name": "pneumonia_bounding_boxes"
@@ -21,7 +21,7 @@
         ]
 },
 { 
-"file" : "sampledicomfile2.dcm"  
+    "file" : "sampledicomfile2.dcm",
     "classificatonOutput" : [
       { "name" : "pneumonia_classification"
         "output" : { "0" : 0, "1", 1, "2" : 0 }} ,
