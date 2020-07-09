@@ -1,4 +1,4 @@
-apiVersion: core.oam.dev/v1alpha1
+apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
 metadata:
   name: my-pneumonia-build
