@@ -1,3 +1,17 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ApplicationConfiguration
+metadata:
+  name: my-pneumonia-build
+  annotations:
+    version: v1.0.0
+    description: "Docker for pneumonia detection"
+spec:
+  variables:
+    - name: buildArg1
+      value: "Well hello there"
+    - name: buildArg2
+      value: "www.example.com"
+---
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
