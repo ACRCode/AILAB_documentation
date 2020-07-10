@@ -1,8 +1,8 @@
 "usecase" : "AILab Use case name",
 "modelname" : "model_name",
-"files" :  [
+"studyInstanceUIDs" :  [
 {
-    "file" : "AILab Filepath1"
+    "studyInstanceUID" : "AILab studyInstanceUID1"
     
     "classificatonOutput" : [
       { "name" : "AILab classification element name"
@@ -31,7 +31,7 @@
         ]    
 },
  
-{    "file" : "AILab Filepath2"
+{    "studyInstanceUID" : "AILab studyInstanceUID2",
 
     "classificatonOutput" : [ ...
 }, ...
