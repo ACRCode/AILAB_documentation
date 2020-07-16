@@ -16,6 +16,7 @@ apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
   name: example-aimodel-server
+  acrUsecase: example-use-case
 spec:
   workload:
     apiVersion: core.oam.dev/v1alpha2
