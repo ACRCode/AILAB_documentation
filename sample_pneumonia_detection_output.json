@@ -1,8 +1,8 @@
 "usecase" : "pneumonia_detection",
 "modelname" : "rsna_pneumonia_detector",
-"studyInstanceUIDs" :  [
+"studies" :  [
 {
-    "studyInstanceUID" : "sampledicomfile1.dcm",
+    "studyInstanceUID" : "sampledicomfile1",
     "classificatonOutput" : [
       { "key" : "rde_339"
         "output" : { "0" : 0, "1", 0.3, "2" : 0.7 }} ,
