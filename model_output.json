@@ -1,7 +1,7 @@
 {
 "usecase" : "AILab Use case name",
 "modelname" : "model_name",
-"studies" :  
+"studies" :  [
 {
     "studyInstanceUID" : "AILab studyInstanceUID1"
     
@@ -39,5 +39,5 @@
 }, ...
  
      }
-                             
+    ]                         
 }
