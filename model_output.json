@@ -5,12 +5,12 @@
 {
     "studyInstanceUID" : "AILab studyInstanceUID1"
     
-    "classificatonOutput" : 
+    "classificatonOutput" : [
       { "key" : "AILab classification element name",
         "output" : { "annotation_class_0" : probability, "annotation_class_1", probability, ... }} 
-        
+        ]
 
-    "boundingBoxOutput" : 
+    "boundingBoxOutput" : [
       {"key" : "AILab detection element name",
        "frameNumber": 2,
        "output" : 
@@ -19,24 +19,26 @@
              {"top_left_hand_corner": {"x": int, "y": int}, "bottom_right_hand_corner":{"x": int, "y":int}
                   }, ...
         }
+        ]
         
-    "continuousOutput" : 
+    "continuousOutput" : [
       {"key" : "AILab annotation element name",
        "output" : float }
+        ]
         
-        
-    "segmentationOutput" : 
+    "segmentationOutput" : [
       {"key" : "AILab annotation element name",
        "frameNumber": 1,
        "segmentNumber": 1,
        "output" : table }
         }  
+        ]
 },
  
 {    "studyInstanceUID" : "AILab studyInstanceUID2",
 
-    "classificatonOutput" : { ...
-}, ...
+    "classificatonOutput" : [ ...
+], ...
  
      }
     ]                         
