@@ -38,15 +38,15 @@ spec:
             required: 1.0
           volume:
           - name: "inputVolume"
-            mountPath: run argument
+            mountPath: /usr/input
             accessMode: RO
             sharingPolicy: Shared
           - name: "ouputVolume"
-            mountPath: run argument
+            mountPath: /usr/output
             accessMode: RW
             sharingPolicy: Shared
           - name: "scratchVolume"
-            mountPath: run argument
+            mountPath: /usr/scratch
             accessMode: RW
             sharingPolicy: Shared
         env:
