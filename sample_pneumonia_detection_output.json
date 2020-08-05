@@ -2,15 +2,16 @@
 "modelname" : "rsna_pneumonia_detector",
 "studies" :  [
 {
-    "studyInstanceUID" : "sampledicomfile1",
+    "studyInstanceUID" : "1.2.840.113725.2.0.2162643943.1012243689",
     "classificatonOutput" : [
       { "key" : "rde_339"
-        "output" : { "0" : 0, "1", 0.3, "2" : 0.7 }} ,
+        "output" : { "0" : 0, "1": 0.3, "2" : 0.7 }} ,
         ],
         
     "boundingBoxOutput" : [
       {"key": "acr_01",
-       "frameNumber": 1,
+       "seriesInstanceUID": "1.2.840.113725.2.1.2162643943.1012243689",
+       "sopInstanceUID": "1.2.840.113725.2.2.2162643943.1012243689",
        "output": [
              {"top_left_hand_corner": {"x":3, "y":3}, "bottom_right_hand_corner":{"x":7, "y":7}
                   ]}, 
@@ -20,7 +21,7 @@
         ]
 },
 { 
-    "studyInstanceUID" : "sampledicomfile2.dcm",
+    "studyInstanceUID" : "1.2.840.113725.2.2.2162643943.1012243802",
     "classificatonOutput" : [
       { "key" : "rde_339"
         "output" : { "0" : 0, "1", 1, "2" : 0 }} ,
