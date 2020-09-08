@@ -19,6 +19,7 @@ kind: ContainerizedWorkload
 metadata:
   name: example-aimodel-server
   acrUsecase: example-use-case
+  rde_339Threshold: 0.3
 spec:
   workload:
     apiVersion: core.oam.dev/v1alpha2
