@@ -5,7 +5,7 @@
     "studyInstanceUID" : "1.2.840.113725.2.0.2162643943.1012243689",
     "classificatonOutput" : [
       { "key" : "rde_339",
-        "output" : { "0" : 0, "1": 0.3, "2" : 0.7 }} ,
+        "output" : { "absent": 0.3, "present" : 0.7 }} ,
         ],
         
     "boundingBoxOutput" : [
@@ -24,7 +24,7 @@
     "studyInstanceUID" : "1.2.840.113725.2.2.2162643943.1012243802",
     "classificatonOutput" : [
       { "key" : "rde_339",
-        "output" : { "0" : 0, "1": 1, "2" : 0 }} ,
+        "output" : { "absent": 1, "present" : 0 }} ,
         ]
     
 },...]
