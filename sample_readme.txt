@@ -29,7 +29,7 @@ spec:
       containers:
       - name: my-aimodel-server
         image: example/my-aimodel-server@sha256:72e996751fe42b2a0c1e6355730dc2751ccda50564fec929f76804a6365ef5ef
-        cmd: docker run my-aimodel-server python main.py --inputVolume /iv --outputVolume /ov --scratchVolume /sv --gpu 0 --reportUrl 'https://foo.bar' --jobId job0 --modelFilepath model.pt
+        cmd: docker run my-aimodel-server --inputVolume /iv --outputVolume /ov --scratchVolume /sv python main.py --gpu 0 --reportUrl 'https://foo.bar' --jobId job0 --modelFilepath model.pt
         resources:
           cpu:
             required: 1.0
