@@ -56,14 +56,6 @@ spec:
         ports:
         - name: http
           value: 8080
-        livenessProbe:
-          httpGet:
-            port: 8080
-            path: /healthz
-        readinessProbe:
-          httpGet:
-            port: 8080
-            path: /healthz
         parameters:
           - name: "gpu"
             type: number
