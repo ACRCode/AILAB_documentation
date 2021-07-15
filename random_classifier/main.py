@@ -6,38 +6,61 @@ import logging
 from datetime import datetime
 import json
 import requests
+import torch
+import sys
+import os
+import pylibjpeg
 
 ### Define log file and begin logging ###
 startTime = datetime.now().timestamp()
 modelName = 'randomClassification'
-logFilepath = 'output/' + modelName + '_' + str(startTime) + '.log'
-logging.basicConfig(filename=logFilepath,level=logging.DEBUG)
+logFilepath = '/output/' + modelName + '_' + str(startTime) + '.log'
+file_handler = logging.FileHandler(filename=logFilepath)
+stdout_handler = logging.StreamHandler(sys.stdout)
+handlers = [file_handler, stdout_handler]
+logging.basicConfig(
+    level=logging.DEBUG, 
+    handlers=handlers
+)
 logging.info('Started: %s', startTime)
 
-num_classes = 4 # number of classes for this particular data element model will predict
+torch.cuda.is_available()
+
+def getEnvVarOrDefault(var, default):
+	envVar = os.environ.get(var)
+	if(envVar is None):
+		return default
+	return envVar
 
 ### Define and load arguments ###
 parser = argparse.ArgumentParser()
-parser.add_argument("--gpu", help="int indicating which gpu to utilize",
-                    type=int)
-parser.add_argument("--reportUrl", help="url to report back progress",
-                    type=str)
-parser.add_argument("--jobId", help="unique jobid to use in progress messages",
-                    type=str)	
+parser.add_argument("--gpu", default=getEnvVarOrDefault('gpu', None), help="int indicating which gpu to utilize", type=int)
+parser.add_argument("--reportUrl", default= getEnvVarOrDefault('report_url', 'https://foo.bar'),help="url to report back progress", type=str)
+parser.add_argument("--jobId", default =getEnvVarOrDefault('job_id', 'job0'),help="unique jobid to use in progress messages", type=str)	
 args = parser.parse_args()
 
+# specify device
+if args.gpu is None:
+	device = torch.device('cpu')
+else:
+	device = torch.device('cuda:' + str(args.gpu))
+	
+# number of classes for this particular data element model will predict
+num_classes = torch.tensor(4, device = device) 
+
+	
 
 ### Load input csv ###
 try:
-	inputFilepath = "input/input.csv"
+	inputFilepath = "/input/input.csv"
 	data = pd.read_csv(inputFilepath)
 	studies = np.unique(data['studyInstanceUID'].to_numpy()) #list of unique studyinstanceuids
 	logging.info('Loaded %s', inputFilepath)
 	num_studies = len(studies)
-	print(num_studies)
 	logging.info('Loaded %s unique studyinstanceuids', num_studies)
-except:
+except Exception as e:
 	logging.error('Failed to load input csv %s', datetime.now().timestamp())
+	logging.error(e, exc_info=True)
 
 predictions_list = [] # empty list of predictions
 i=0 # number of successfully processed studies
@@ -51,26 +74,29 @@ for study in studies:
 		filesByStudy = data.loc[data['studyInstanceUID'] == study]['filepath'].to_numpy()
 		prediction=[]
 		for file in filesByStudy:
-			try: 
-				image = pydicom.dcmread(file) # load each image file
-				prediction = np.random.rand(num_classes) # generate a new prediction for each image
-				print(prediction)
-			except:
-				logging.error('Failed to load file %s, time: %s', file, datetime.now().timestamp())
-		
-		prediction_normalized = prediction/(np.sum(prediction))
-		
-		
+			dcm = pydicom.dcmread('/input/' + file) # load each image file
+
+			image = (255*(dcm.pixel_array.astype(float)/((2**dcm.BitsStored)-1))).astype(np.uint8)
+			
+			# move image data to device
+			image = torch.from_numpy(image).float().to(device)
+			# generate a new prediction for each image
+			prediction.append(torch.rand(num_classes))
+
+		# normalize prediction
+		prediction = sum(prediction)/(sum(sum(prediction)))
+		prediction = prediction.numpy().astype(np.float64)
+
 		# save study prediction in JSON format	
 		predictions_list.append({
 			"studyInstanceUID": str(study),
 			"classificationOutput": [{
 				"key": "rde_341", # breast density classification key
 				"output": {
-					"1" : prediction_normalized[0],
-					"2" : prediction_normalized[1],
-					"3" : prediction_normalized[2],
-					"4" : prediction_normalized[3],
+					"1" : prediction[0],
+					"2" : prediction[1],
+					"3" : prediction[2],
+					"4" : prediction[3],
 				}
 			}]
 		})
@@ -83,8 +109,9 @@ for study in studies:
 		
 		logging.info('Processed study %s', study)
 		
-	except:
+	except Exception as e:
 		logging.error('Failed to generate prediction for study %s, time: %s', study, datetime.now().timestamp())
+		logging.error(e, exc_info=True)
 		
 
 ### Log count of successfully processed and failed studies ###
@@ -101,16 +128,15 @@ output_json = {
 
 output_json["studies"]=predictions_list
 
-print(output_json)
-
-json_filepath = 'output/output.json'
+json_filepath = '/output/output.json'
 
 try:
 	with open(json_filepath, 'w') as fp:
 		json.dump(output_json, fp)
 	logging.info('Saved output to %s', json_filepath)
-except:
+except Exception as e:
 	logging.error('Failed to save output to %s at %s',json_filepath, datetime.now().timestamp())
+	logging.error(e, exc_info=True)
 
 
 ### Send complete job status and finish ###
